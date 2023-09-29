@@ -1,0 +1,41 @@
+name: Homologation up
+
+on:
+  push:
+    branches:
+      - "feat/cria-infra"
+    paths:
+      - ".github/workflows/homologation.yml"
+      - "infra/homologation/terraform/**"
+
+jobs:
+  infra_up:
+    name: Infra up
+    runs-on: ubuntu-22.04
+    environment: homologation
+    defaults:
+      run:
+        working-directory: infra/homologation/terraform
+    steps:
+      - uses: actions/checkout@v4.1.0
+
+      - name: aws credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: us-east-1
+
+      - name: HashiCorp - Setup Terraform
+        uses: hashicorp/setup-terraform@v2.0.3
+        with:
+          terraform_version: 1.5.7
+
+      - name: Terraform init
+        run: terraform init
+
+      - name: Terraform validate
+        run: terraform validate
+
+      - name: Terraform plan
+        run: terraform plan
