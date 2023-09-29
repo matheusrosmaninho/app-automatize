@@ -40,4 +40,9 @@ resource "aws_eip" "infra_ec2_eip_app" {
   domain   = "vpc"
 
   depends_on = [aws_instance.infra_ec2_app]
+
+  tags = {
+    Name = "${var.appName}-${var.env}"
+    Type = "Elastic ip"
+  }
 }
