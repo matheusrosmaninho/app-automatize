@@ -37,5 +37,11 @@ jobs:
       - name: Terraform validate
         run: terraform validate
 
-      - name: Terraform plan
-        run: terraform plan
+      - name: Cria o terraform.tfvars
+        run: |
+          cat >terraform.tfvars<<EOL
+          ec2PublicKey="${{ secrets.EC2_PUBLIC_KEY }}"
+          EOL
+
+      - name: Terraform apply
+        run: terraform apply -auto-approve
