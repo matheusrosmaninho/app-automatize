@@ -9,6 +9,9 @@ module "vpc" {
   public_subnets  = ["${var.prefixCidr}.101.0/24", "${var.prefixCidr}.102.0/24", "${var.prefixCidr}.103.0/24"]
 
   enable_nat_gateway = true
+  single_nat_gateway = true
+  enable_dns_hostnames = true
+  enable_dns_support = true
 
   tags = {
     Name = "${var.appName}-${var.productName}-${var.env}"
