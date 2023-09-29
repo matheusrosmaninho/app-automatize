@@ -1,4 +1,4 @@
-resource "aws_subnet" "infra_sg_app" {
+resource "aws_security_group" "infra_sg_app" {
   name   = "app-sg"
   vpc_id = module.vpc.vpc_id
 
