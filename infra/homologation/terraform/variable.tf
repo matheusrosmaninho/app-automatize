@@ -30,7 +30,7 @@ variable "ec2PublicKey" {
 
 variable "ec2Ami" {
   type = string
-  default = "ami-03f6c2c562b3df715"
+  default = "ami-03a6eaae9938c858c"
 }
 
 variable "ec2InstanceType" {
