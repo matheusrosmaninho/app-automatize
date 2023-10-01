@@ -3,7 +3,7 @@ name: Homologation up
 on:
   push:
     branches:
-      - "feat/cria-infra"
+      - "homologation"
     paths:
       - ".github/workflows/homologation.yml"
       - "infra/homologation/terraform/**"
