@@ -7,6 +7,12 @@ on:
     paths:
       - ".github/workflows/homologation.yml"
       - "infra/homologation/terraform/**"
+  pull_request:
+    branches:
+      - "homologation"
+    paths:
+      - ".github/workflows/homologation.yml"
+      - "infra/homologation/terraform/**"
 
 jobs:
   infra_up:
@@ -48,5 +54,10 @@ jobs:
           ec2PublicKey="${{ secrets.EC2_PUBLIC_KEY }}"
           EOL
 
+      - name: Terraform plan
+        if: github.event_name == 'pull_request'
+        run: terraform plan
+
       - name: Terraform apply
+        if: github.ref == 'refs/heads/homologation' && github.event_name == 'push'
         run: terraform apply -auto-approve
