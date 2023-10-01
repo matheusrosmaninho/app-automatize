@@ -37,3 +37,13 @@ variable "ec2InstanceType" {
   type = string
   default = "t2.micro"
 }
+
+variable "zoneId" {
+  type = string
+  sensitive = true
+}
+
+variable "domain" {
+  type = string
+  default = "rosmano.com.br"
+}
