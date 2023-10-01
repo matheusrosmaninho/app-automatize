@@ -53,7 +53,8 @@ jobs:
         run: |
           cat >terraform.tfvars<<EOL
           ec2PublicKey="${{ secrets.EC2_PUBLIC_KEY }}"
-          zoneId="${{ secrets.CLOUDFLARE_ZONE_ID }}"
+          cloudflareZoneId="${{ secrets.CLOUDFLARE_ZONE_ID }}"
+          cloudflareAccountId="${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
           EOL
 
       - name: Terraform plan
