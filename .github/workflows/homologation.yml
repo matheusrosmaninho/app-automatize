@@ -19,6 +19,7 @@ jobs:
     name: Infra up
     runs-on: ubuntu-22.04
     environment: homologation
+    timeout-minutes: 20
     defaults:
       run:
         working-directory: infra/homologation/terraform
@@ -52,6 +53,7 @@ jobs:
         run: |
           cat >terraform.tfvars<<EOL
           ec2PublicKey="${{ secrets.EC2_PUBLIC_KEY }}"
+          zoneId="${{ secrets.CLOUDFLARE_ZONE_ID }}"
           EOL
 
       - name: Terraform plan
