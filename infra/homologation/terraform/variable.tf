@@ -38,7 +38,7 @@ variable "ec2InstanceType" {
   default = "t2.micro"
 }
 
-variable "zoneId" {
+variable "cloudflareZoneId" {
   type = string
   sensitive = true
 }
@@ -46,4 +46,9 @@ variable "zoneId" {
 variable "domain" {
   type = string
   default = "rosmano.com.br"
+}
+
+variable "cloudflareAccountId" {
+  type = string
+  sensitive = true
 }

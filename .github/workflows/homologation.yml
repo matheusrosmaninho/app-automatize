@@ -7,12 +7,19 @@ on:
     paths:
       - ".github/workflows/homologation.yml"
       - "infra/homologation/terraform/**"
+  pull_request:
+    branches:
+      - "homologation"
+    paths:
+      - ".github/workflows/homologation.yml"
+      - "infra/homologation/terraform/**"
 
 jobs:
   infra_up:
     name: Infra up
     runs-on: ubuntu-22.04
     environment: homologation
+    timeout-minutes: 20
     defaults:
       run:
         working-directory: infra/homologation/terraform
@@ -46,7 +53,14 @@ jobs:
         run: |
           cat >terraform.tfvars<<EOL
           ec2PublicKey="${{ secrets.EC2_PUBLIC_KEY }}"
+          cloudflareZoneId="${{ secrets.CLOUDFLARE_ZONE_ID }}"
+          cloudflareAccountId="${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
           EOL
 
+      - name: Terraform plan
+        if: github.event_name == 'pull_request'
+        run: terraform plan
+
       - name: Terraform apply
+        if: github.ref == 'refs/heads/homologation' && github.event_name == 'push'
         run: terraform apply -auto-approve
