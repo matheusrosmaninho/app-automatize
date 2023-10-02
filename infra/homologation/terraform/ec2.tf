@@ -20,9 +20,6 @@ resource "aws_instance" "infra_ec2_app" {
     }
   }
 
-  disable_api_termination = false
-  disable_api_stop        = false
-
   depends_on = [
     aws_key_pair.infra_key_app,
     aws_subnet.infra_subnet_app,
