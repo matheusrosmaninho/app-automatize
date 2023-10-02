@@ -1,6 +1,6 @@
 resource "cloudflare_record" "infra_ec2_app_domain" {
   zone_id = var.cloudflareZoneId
-  name    = "app"
+  name    = "app.${var.domain}"
   value   = aws_eip.infra_ec2_eip_app.public_ip
   type    = "A"
   proxied = true
