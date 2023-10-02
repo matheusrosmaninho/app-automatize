@@ -1,5 +1,5 @@
 resource "cloudflare_ruleset" "infra_app_waf_custom_rules" {
-  account_id = var.cloudflareAccountId
+  zone_id = var.cloudflareZoneId
   name = "Waf custom rules"
   description = "Waf custom rules"
   kind = "zone"
