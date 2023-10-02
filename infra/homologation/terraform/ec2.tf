@@ -13,6 +13,7 @@ resource "aws_instance" "infra_ec2_app" {
   root_block_device {
     volume_size = 30
     volume_type = "gp3"
+    encrypted = false
 
     tags = {
       Name = "${var.appName}-${var.env}"
