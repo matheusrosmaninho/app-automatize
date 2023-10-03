@@ -1,0 +1,53 @@
+name: Homologation up
+
+on:
+  workflow_call:
+
+jobs:
+  infra_up:
+    name: Infra up
+    runs-on: ubuntu-22.04
+    environment: homologation
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: infra/homologation/terraform
+    steps:
+      - uses: actions/checkout@v4.1.0
+
+      - name: aws credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: us-east-1
+
+      - name: HashiCorp - Setup Terraform
+        uses: hashicorp/setup-terraform@v2.0.3
+        with:
+          terraform_version: 1.5.5
+
+      - name: Terraform version
+        run: terraform --version
+
+      - name: Cria o main.tf
+        run: |
+          mv main.tf.modelo main.tf
+          sed -i "s|<CLOUDFLARE_API_TOKEN>|${{ secrets.CLOUDFLARE_API_TOKEN }}|g" main.tf
+
+      - name: Terraform init
+        run: terraform init
+
+      - name: Terraform validate
+        run: terraform validate
+
+      - name: Cria o terraform.tfvars
+        run: |
+          cat >terraform.tfvars<<EOL
+          ec2PublicKey="${{ secrets.EC2_PUBLIC_KEY }}"
+          cloudflareZoneId="${{ secrets.CLOUDFLARE_ZONE_ID }}"
+          cloudflareAccountId="${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
+          EOL
+
+      - name: Terraform destroy
+        run: terraform destroy -auto-approve
