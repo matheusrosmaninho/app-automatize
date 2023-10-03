@@ -1,11 +1,11 @@
-name: Homologation up
+name: Homologation destroy
 
 on:
   workflow_call:
 
 jobs:
-  infra_up:
-    name: Infra up
+  infra_destroy:
+    name: Infra destroy
     runs-on: ubuntu-22.04
     environment: homologation
     timeout-minutes: 20
