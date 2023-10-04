@@ -1,22 +1,11 @@
-name: Homologation up
+name: Homologation destroy
 
 on:
-  push:
-    branches:
-      - "homologation"
-    paths:
-      - ".github/workflows/homologation.yml"
-      - "infra/homologation/terraform/**"
-  pull_request:
-    branches:
-      - "homologation"
-    paths:
-      - ".github/workflows/homologation.yml"
-      - "infra/homologation/terraform/**"
+  workflow_dispatch:
 
 jobs:
-  infra_up:
-    name: Infra up
+  infra_destroy:
+    name: Infra destroy
     runs-on: ubuntu-22.04
     environment: homologation
     timeout-minutes: 20
@@ -60,10 +49,5 @@ jobs:
           cloudflareAccountId="${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
           EOL
 
-      - name: Terraform plan
-        if: github.event_name == 'pull_request'
-        run: terraform plan
-
-      - name: Terraform apply
-        if: github.ref == 'refs/heads/homologation' && github.event_name == 'push'
-        run: terraform apply -auto-approve
+      - name: Terraform destroy
+        run: terraform destroy -auto-approve

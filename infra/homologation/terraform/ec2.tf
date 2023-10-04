@@ -9,10 +9,11 @@ resource "aws_instance" "infra_ec2_app" {
   subnet_id                   = aws_subnet.infra_subnet_app.id
   associate_public_ip_address = true
   key_name                    = aws_key_pair.infra_key_app.key_name
-  security_groups             = [aws_security_group.infra_sg_app.id]
+  vpc_security_group_ids      = [aws_security_group.infra_sg_app.id]
   root_block_device {
     volume_size = 30
     volume_type = "gp3"
+    encrypted   = false
 
     tags = {
       Name = "${var.appName}-${var.env}"
