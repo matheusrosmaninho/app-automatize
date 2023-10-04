@@ -47,8 +47,3 @@ variable "domain" {
   type = string
   default = "rosmano.com.br"
 }
-
-variable "cloudflareAccountId" {
-  type = string
-  sensitive = true
-}
